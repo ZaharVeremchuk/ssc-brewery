@@ -2,9 +2,11 @@ package guru.sfg.brewery.web.controllers;
 
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.util.DigestUtils;
 
 import static org.junit.Assert.assertTrue;
@@ -14,7 +16,15 @@ public class PasswordEncoderTest {
     static final String PASSWORD = "password";
 
     @Test
-    void testLDAP() {
+    void testSha256() {
+        PasswordEncoder sha256 = new StandardPasswordEncoder();
+
+        System.out.println(sha256.encode(PASSWORD)); //1
+        System.out.println(sha256.encode(PASSWORD)); //2
+    }
+
+    @Test
+    void testLdap() {
         /*
          * LDAP using random salt.
          * 1 and 2 are different.
