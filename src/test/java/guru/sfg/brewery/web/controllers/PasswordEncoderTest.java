@@ -15,6 +15,20 @@ public class PasswordEncoderTest {
 
     static final String PASSWORD = "password";
 
+    /**
+     * By default, Bcrypt has strength of password equal 10
+     * But we can change it
+     * Example: $2a$15$.vTZ8QTHzA/iHM1jwXw8newnkUK9GfqjRCxmIjUv4JVc36mypyKle
+     * $2a$15$ is metadata
+     */
+    @Test
+    void testBcrypt() {
+        PasswordEncoder bcrypt = new BCryptPasswordEncoder(11);
+
+        System.out.println(bcrypt.encode(PASSWORD));
+        System.out.println(bcrypt.encode(PASSWORD));
+    }
+
     @Test
     void testSha256() {
         PasswordEncoder sha256 = new StandardPasswordEncoder();
@@ -23,14 +37,14 @@ public class PasswordEncoderTest {
         System.out.println(sha256.encode(PASSWORD)); //2
     }
 
+    /*
+     * LDAP using random salt.
+     * 1 and 2 are different.
+     * Encrypted password example : {{SSHA}}hash-code
+     * {SSHA}+Okj/GoJOkShTQu5FiQb5nVpZyn5WYc+E4mlwQ==
+     */
     @Test
     void testLdap() {
-        /*
-         * LDAP using random salt.
-         * 1 and 2 are different.
-         * Encrypted password example : {{SSHA}}hash-code
-         * {SSHA}+Okj/GoJOkShTQu5FiQb5nVpZyn5WYc+E4mlwQ==
-         */
         PasswordEncoder ldap = new LdapShaPasswordEncoder();
         System.out.println(ldap.encode(PASSWORD)); //1
         System.out.println(ldap.encode(PASSWORD)); //2
