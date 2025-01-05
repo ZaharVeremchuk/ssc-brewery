@@ -1,8 +1,15 @@
 package guru.sfg.brewery.domain.security;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Set;
 
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Authority {
 
@@ -10,10 +17,6 @@ public class Authority {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String role;
-
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "user_authority",
-            joinColumns= {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name="AUTHORITY_ID", referencedColumnName = "ID")})
+    @ManyToMany(mappedBy = "authorities")
     private Set<User> users;
 }
